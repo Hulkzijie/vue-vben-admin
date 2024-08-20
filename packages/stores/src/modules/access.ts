@@ -55,6 +55,9 @@ export const useAccessStore = defineStore('core-access', {
     setRefreshToken(token: AccessToken) {
       this.refreshToken = token;
     },
+    setTenantId(list:any){
+      this.setTenantId =list; 
+    }
   },
   persist: {
     // 持久化

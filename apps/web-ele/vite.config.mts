@@ -13,11 +13,11 @@ export default defineConfig(async () => {
       ],
       server: {
         proxy: {
-          '/api': {
+          '/jeecg-boot': {
             changeOrigin: true,
-            rewrite: (path) => path.replace(/^\/api/, ''),
+            rewrite: (path) => path.replace(/^\/jeecg-boot/, ''),
             // mock代理目标地址
-            target: 'http://localhost:5320/api',
+            target: 'http://localhost:8080/jeecg-boot',
             ws: true,
           },
         },

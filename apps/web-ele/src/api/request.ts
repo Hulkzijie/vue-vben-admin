@@ -27,6 +27,7 @@ function createRequestClient(baseURL: string) {
           return {
             refreshToken: `${accessStore.refreshToken}`,
             token: `${accessStore.accessToken}`,
+      
           };
         },
         unAuthorizedHandler: async () => {
@@ -49,17 +50,24 @@ function createRequestClient(baseURL: string) {
       return {
         // 为每个请求携带 Accept-Language
         'Accept-Language': preferences.app.locale,
+
       };
     },
   });
   client.addResponseInterceptor<HttpResponse>((response) => {
     const { data: responseData, status } = response;
-
-    const { code, data, message: msg } = responseData;
-    if (status >= 200 && status < 400 && code === 0) {
-      return data;
+  //  console.log('responseData',responseData,status)
+    const { code,message,result} = responseData;
+    const hasSuccess = responseData && Reflect.has(responseData, 'code') && (code === 0|| code === 200);
+    // console.log('-code-',code,'-data-',data,'-message-',msg)
+    // if (status >= 200 && status < 400 && code === 0) {
+    //   return result;
+    // }
+    if (hasSuccess) {
+  
+      return result;
     }
-    throw new Error(`Error ${status}: ${msg}`);
+    throw new Error(`Error ${status}: ${message}`);
   });
   return client;
 }

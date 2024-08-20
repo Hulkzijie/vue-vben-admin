@@ -71,11 +71,17 @@ interface AuthenticationProps {
    * @zh_CN 用户名占位符
    */
   usernamePlaceholder?: string;
+  /**
+   * captcha
+   */
+  captcha?:string ;
 }
 
 interface LoginAndRegisterParams {
   password: string;
   username: string;
+  captcha:string;
+  checkKey:Number;
 }
 
 interface LoginCodeParams {

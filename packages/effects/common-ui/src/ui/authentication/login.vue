@@ -20,8 +20,7 @@ interface Props extends AuthenticationProps {}
 defineOptions({
   name: 'AuthenticationLogin',
 });
-
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   codeLoginPath: '/auth/code-login',
   forgetPasswordPath: '/auth/forget-password',
   loading: false,
@@ -37,8 +36,10 @@ withDefaults(defineProps<Props>(), {
   subTitle: '',
   title: '',
   usernamePlaceholder: '',
+  captcha:''
 });
 
+console.log('-props-',props.captcha)
 const emit = defineEmits<{
   submit: LoginEmits['submit'];
 }>();
@@ -54,6 +55,8 @@ const formState = reactive({
   rememberMe: !!localUsername,
   submitted: false,
   username: localUsername,
+  captcha:'',
+  checkKey:1629428467008 
 });
 
 const usernameStatus = computed(() => {
@@ -82,6 +85,8 @@ function handleSubmit() {
   emit('submit', {
     password: formState.password,
     username: formState.username,
+    captcha:props.captcha,
+    checkKey:1629428467008
   });
 }
 
@@ -122,7 +127,7 @@ function handleGo(path: string) {
       required
       type="password"
     />
-
+    <slot></slot>
     <div class="mb-6 mt-4 flex justify-between">
       <div v-if="showRememberMe" class="flex-center">
         <VbenCheckbox v-model:checked="formState.rememberMe" name="rememberMe">
@@ -159,6 +164,7 @@ function handleGo(path: string) {
       >
         {{ $t('authentication.qrcodeLogin') }}
       </VbenButton>
+  
     </div>
 
     <!-- 第三方登录 -->

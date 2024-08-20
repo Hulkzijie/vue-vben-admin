@@ -49,6 +49,7 @@ interface HttpResponse<T = any> {
    */
   code: number;
   data: T;
+  result:T;
   message: string;
 }
 
