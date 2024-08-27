@@ -17,7 +17,9 @@ export namespace AuthApi {
     // userId: string;
     // username: string;
     token:string,
-    userInfo:any
+    userInfo:any,
+    tenantList:[],
+
   }
 }
 
@@ -32,5 +34,5 @@ export async function loginApi(data: AuthApi.LoginParams) {
  * 获取用户权限码
  */
 export async function getAccessCodesApi() {
-  return requestClient.get<string[]>('/auth/codes');
+  // return requestClient.get<string[]>('/auth/codes');
 }

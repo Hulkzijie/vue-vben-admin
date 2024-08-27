@@ -69,7 +69,7 @@ function createRequestClient(baseURL: string) {
   
       return result;
     }
-    throw new Error(`Error ${status}: ${message}`);
+    // throw new Error(`Error ${status}: ${message}`);
   });
   return client;
 }

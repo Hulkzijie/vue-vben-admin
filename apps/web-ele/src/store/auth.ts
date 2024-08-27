@@ -10,7 +10,7 @@ import { resetAllStores, useAccessStore, useUserStore } from '@vben/stores';
 import { ElNotification } from 'element-plus';
 import { defineStore } from 'pinia';
 
-import { getAccessCodesApi, getUserInfoApi, loginApi } from '#/api';
+import {getUserInfoApi, loginApi,getAllMenusApi } from '#/api';
 import { $t } from '#/locales';
 
 export const useAuthStore = defineStore('auth', () => {
@@ -55,13 +55,15 @@ export const useAuthStore = defineStore('auth', () => {
 
         userStore.setUserInfo(userInfo);
         // accessStore.setAccessCodes(accessCodes);
-
+        accessStore.setLoginExpired(false);
         if (accessStore.loginExpired) {
           accessStore.setLoginExpired(false);
         } else {
           onSuccess
             ? await onSuccess?.()
             : await router.push(userInfo.homePath || DEFAULT_HOME_PATH);
+
+            afterLoginAction()
         }
 
         if (userInfo?.realName) {
@@ -100,7 +102,12 @@ export const useAuthStore = defineStore('auth', () => {
     userStore.setUserInfo(userInfo);
     return userInfo;
   }
-
+  async function afterLoginAction() {
+    getAllMenusApi().then(res => {
+      accessStore.setAccessMenus(res.menu);
+      accessStore.setAccessCodes(res.codeList);
+    })
+  }
   function $reset() {
     loginLoading.value = false;
   }
