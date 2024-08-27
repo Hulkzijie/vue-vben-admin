@@ -47,9 +47,11 @@ function createRequestClient(baseURL: string) {
     makeErrorMessage: (msg) => ElMessage.error(msg),
 
     makeRequestHeaders: () => {
+      const accessStore =useAccessStore()
       return {
         // 为每个请求携带 Accept-Language
         'Accept-Language': preferences.app.locale,
+        'x-access-token':`${accessStore.accessToken}`,
 
       };
     },
